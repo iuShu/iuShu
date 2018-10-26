@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+    <properties>
+        <property name="username">85364222</property>
+        <property name="password">123456abc</property>
+    </properties>
+
+    <environment>
+        <bean id="dataSource" class="xxx.xxx.xxx.DbcpDataSource">
+            <property name="url">jdbc:mysql:///sakila</property>
+            <property name="username">root</property>
+            <property name="password">nopassword</property>
+            <property name="driver">xxx.xxx.xxx.Driver</property>
+        </bean>
+    </environment>
+
+</configuration>

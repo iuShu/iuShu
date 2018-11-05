@@ -1,8 +1,7 @@
 package org.iushu.config;
 
-import org.iushu.config.component.Definition;
-import org.iushu.config.component.Document;
-import org.iushu.config.component.xml.DomNode;
+import org.iushu.config.resource.Resource;
+import org.iushu.config.resource.Resources;
 
 /**
  * Created by iuShu on 18-10-23
@@ -17,7 +16,7 @@ public class ConfigEngine {
      *
      * 2. resolve configuration
      *      2.1 Configuration is regard as a Document, DOM node as Node.
-     *      2.1 core resolver: DocumentResolver.
+     *      2.1 core resolver: Resolver.
      *      2.2 complex node resolve...(TODO).
      *
      * 3. store configuration url
@@ -37,8 +36,20 @@ public class ConfigEngine {
 
 //        ConfigEngine.registerUrl("...").run();
 
-        Document doc = null;
-        Definition def = doc.getDefinition();
+        /*
+
+        // single configuration
+        Resource resource = Resources.register("xx/xx/xx.xml"); // file path
+        // multiple configuration in directory
+        Resource resource = Resources.register("xx/xx/xx/"); // dir path
+
+        Document document = resource.deliver();
+        document.resolve();
+
+         */
+
+        Resource resource = Resources.registerFile("evil");
+
     }
 
 }

@@ -16,4 +16,10 @@
         </bean>
     </environment>
 
+    <!--
+
+    server.heartbeat=3000
+
+    -->
+
 </configuration>

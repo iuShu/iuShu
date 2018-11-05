@@ -1,4 +1,4 @@
-package org.iushu.config.perfect;
+package org.iushu.config.zoo;
 
 import org.iushu.config.annotation.AutoConfig;
 import org.iushu.config.annotation.ConfigValue;

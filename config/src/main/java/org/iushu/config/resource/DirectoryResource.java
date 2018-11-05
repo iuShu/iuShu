@@ -2,6 +2,8 @@ package org.iushu.config.resource;
 
 import org.iushu.config.document.StandardDocument;
 
+import java.io.InputStream;
+
 /**
  * Created by iuShu on 18-11-1
  */
@@ -13,6 +15,11 @@ public class DirectoryResource extends AbstractLocalResource {
 
     @Override
     public StandardDocument deliver() {
+        return null;
+    }
+
+    @Override
+    public InputStream open() throws Exception {
         return null;
     }
 }

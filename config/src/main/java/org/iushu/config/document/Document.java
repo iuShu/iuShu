@@ -1,6 +1,7 @@
 package org.iushu.config.document;
 
 import org.iushu.config.definition.Definition;
+import org.iushu.config.document.property.PropertyRepository;
 import org.iushu.config.resource.Resource;
 
 import java.io.InputStream;
@@ -21,6 +22,11 @@ public interface Document {
     Resource getResource();
 
     Definition getDefinition();
+
+    /**
+     * @return the property which stores all properties of document.
+     */
+    PropertyRepository repository();
 
     InputStream open() throws Exception;
 

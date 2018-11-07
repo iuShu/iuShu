@@ -1,4 +1,4 @@
-package org.iushu.config.document.repository;
+package org.iushu.config.document.property;
 
 /**
  * A node represents the key-value pair in properties,
@@ -11,18 +11,18 @@ public interface PropertyNode {
     /**
      * Node which represents the key in properties and the tag name in xml.
      *
-     * @return the node name
+     * @return the node key
      */
-    String getName();
+    String getKey();
+
+    /**
+     * @return the value of this node
+     */
+    Object getValue(Tokenizer key);
 
     /**
      * @return the property of node
      */
     Property getProperty();
-
-    /**
-     * @return the value of this node
-     */
-    Object getValue();
 
 }

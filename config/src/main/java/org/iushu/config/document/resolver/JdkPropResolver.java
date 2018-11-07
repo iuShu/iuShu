@@ -1,6 +1,10 @@
 package org.iushu.config.document.resolver;
 
 import org.iushu.config.document.Document;
+import org.iushu.config.document.property.DocumentPropertyRepository;
+import org.iushu.config.document.property.PropertyNode;
+import org.iushu.config.document.property.ResolverFlow;
+import org.iushu.config.document.property.Tokenizer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,9 +25,15 @@ public class JdkPropResolver implements Resolver {
         Properties properties = new Properties();
         try {
             properties.load(is);
-//            for (Map.Entry<Object, Object> entry : properties.entrySet())
+            DocumentPropertyRepository repository = new DocumentPropertyRepository();
+            for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+                Tokenizer key = new Tokenizer(entry.getKey().toString());
 
+                // properties configuration do not have Property, parent and childes.
+                PropertyNode propertyNode = ResolverFlow.newPropertyNode(key, null, entry.getValue());
 
+                repository.put(propertyNode);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

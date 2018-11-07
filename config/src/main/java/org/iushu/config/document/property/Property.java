@@ -1,4 +1,4 @@
-package org.iushu.config.document.repository;
+package org.iushu.config.document.property;
 
 public interface Property {
 

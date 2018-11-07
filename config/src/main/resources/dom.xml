@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+    PropertyRepository
+        PropertyNode
+            Property
+-->
+
+<!--
+    PropertyNode
+        key=configuration value=null child=<properties>,<environment> property=null
+            key=properties value=null child=<property>,<property> property=null
+                key=property value=85364222 child=null property=<name:username>     KeyValueProperty
+                key=property value=123456abc  child=null property=<name:password>
+            key=environment value=null child=<bean>
+                key=bean value=null child=<property>*4 property=<id:datasource>,<class:...>   MultipleProperty
+                    key=property value=jdbc... child=null property=<name:url>
+                    key=property value=root child=null property=<name:username>
+                    key=property value=nopassword child=null property=<name:password>
+                    key=property value=xxx.Driver child=null property=<name:driver>
+
+-->
 <configuration>
 
     <properties>
@@ -18,7 +38,34 @@
 
     <!--
 
+    PropertyNode
+        key=server value=null child=<heartbeat>,<watermark> property=null
+            key=heartbeat value=3000 child=null property=null
+            key=watermark value=10000 child=null property=null
+
     server.heartbeat=3000
+    server.watermark=10000
+
+    client.writable=true
+    client.file.upload.size=1024 * 1024
+    client.file.upload.batch=4
+
+    Transform to framework formats:
+
+    <server>
+        <heartbeat>3000</heartbeat>
+        <watermark>10000</watermark>
+    </server>
+
+    <client>
+        <writable>true</writable>
+        <file>
+            <upload>
+                <size>1024 * 1024</size>
+                <batch>4</batch>
+            </upload>
+        </file>
+    </client>
 
     -->
 

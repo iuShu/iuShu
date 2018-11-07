@@ -2,6 +2,7 @@ package org.iushu.config.document;
 
 import org.iushu.config.definition.DefineOperation;
 import org.iushu.config.definition.Definition;
+import org.iushu.config.document.property.PropertyRepository;
 import org.iushu.config.resource.Resource;
 
 import java.io.InputStream;
@@ -17,6 +18,7 @@ public class StandardDocument implements Document {
     private Resource resource;
     private DefineOperation defOpr;
     private Definition definition;
+    private PropertyRepository repository;
 
     public StandardDocument(String name, Resource resource, DefineOperation defOpr) {
         this.name = name;
@@ -41,8 +43,16 @@ public class StandardDocument implements Document {
     }
 
     @Override
+    public PropertyRepository repository() {
+        return repository;
+    }
+
+    @Override
     public InputStream open() throws Exception {
         return resource.open();
     }
 
+    public void fill(PropertyRepository repository) {
+        this.repository = repository;
+    }
 }

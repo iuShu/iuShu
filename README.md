@@ -2,6 +2,6 @@
 base component module collection 
 ---
 <ul>
-    <li>[root] developing...</li>
-    <li>[config] developing...</li>
+    <li><b>root</b> developing...</li>
+    <li><b>config</b> developing...</li>
 </ul>

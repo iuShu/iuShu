@@ -8,7 +8,7 @@ import org.iushu.config.resource.Resource;
 import java.io.InputStream;
 
 /**
- * Standard document, represents a single configuration file
+ * Standard document, represents a singleProps configuration file
  *
  * Created by iuShu on 18-10-31
  */

@@ -1,4 +1,5 @@
 # iuShu
 base component module collection 
 ----
-developing...
+[root] developing <br/>
+[config] developing...

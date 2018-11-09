@@ -3,14 +3,11 @@ package org.iushu.config;
 import org.iushu.config.definition.Definition;
 import org.iushu.config.document.Document;
 import org.iushu.config.document.property.PropertyRepository;
-import org.iushu.config.document.property.Tokenizer;
 import org.iushu.config.document.resolver.JdkPropResolver;
 import org.iushu.config.document.resolver.Resolver;
 import org.iushu.config.resource.Resource;
 import org.iushu.config.resource.Resources;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -48,7 +45,7 @@ public class ConfigEngine {
 
         /*
 
-        // single configuration
+        // singleProps configuration
         Resource resource = Resources.register("xx/xx/xx.xml"); // file path
         // multiple configuration in directory
         Resource resource = Resources.register("xx/xx/xx/"); // dir path
@@ -60,12 +57,11 @@ public class ConfigEngine {
 
 //        Resource resource = Resources.registerFile("evil");
 
-        single();
+        singleProps();
 
-//        Resources.autoScan();
     }
 
-    public static void single() {
+    public static void singleProps() {
         List<Resource> resources = Resources.autoScan();
         Resource resource = resources.get(1);
         Document document = resource.deliver();
@@ -81,6 +77,10 @@ public class ConfigEngine {
             return;
 
         System.out.println(repository);
+    }
+
+    public static void singleXml() {
+
     }
 
 }

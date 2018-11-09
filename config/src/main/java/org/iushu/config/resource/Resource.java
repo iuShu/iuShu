@@ -31,7 +31,7 @@ public interface Resource {
     StandardDocument deliver();
 
     /**
-     * Open the resource as InputStream, single or multiple stream is possible.
+     * Open the resource as InputStream, singleProps or multiple stream is possible.
      *
      * @return the InputStream of resource
      */

@@ -20,6 +20,8 @@ public interface PropertyNode {
      */
     Object getValue(Tokenizer key);
 
+    void setValue(Object value);
+
     /**
      * @return the property of node
      */

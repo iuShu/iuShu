@@ -1,5 +1,7 @@
 package org.iushu.config.document.property;
 
+import com.google.common.collect.Maps;
+
 import java.util.Map;
 
 /**
@@ -32,7 +34,7 @@ public class DefaultPropertyNode implements HierarchicalPropertyNode {
         this.property = property;
         this.value = value;
         this.parent = parent;
-        this.childes = childes;
+        this.childes = childes == null ? Maps.newHashMap() : childes;
     }
 
     @Override
@@ -43,6 +45,20 @@ public class DefaultPropertyNode implements HierarchicalPropertyNode {
     @Override
     public Map<String, PropertyNode> child() {
         return childes;
+    }
+
+    @Override
+    public void addParent(HierarchicalPropertyNode parent) {
+        if (parent == null)
+            return;
+        this.parent = parent;
+    }
+
+    @Override
+    public void addChild(HierarchicalPropertyNode child) {
+        if (child == null)
+            return;
+        this.childes.put(child.getKey(), child);
     }
 
     @Override
@@ -57,16 +73,22 @@ public class DefaultPropertyNode implements HierarchicalPropertyNode {
 
     @Override
     public Object getValue(Tokenizer key) {
-        if (childes != null) {
+        // contain childes
+        if (!childes.isEmpty()) {
             PropertyNode propertyNode =  childes.get(key.next());
             if (propertyNode != null)
                 return propertyNode.getValue(key);
             return null;
         }
 
-        // if no child
+        // no childes
         if (this.key.equalsIgnoreCase(key.next()))
             return value;
         return null;
+    }
+
+    @Override
+    public void setValue(Object value) {
+        this.value = value;
     }
 }

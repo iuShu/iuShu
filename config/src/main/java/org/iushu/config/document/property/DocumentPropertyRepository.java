@@ -1,5 +1,7 @@
 package org.iushu.config.document.property;
 
+import com.google.common.collect.Maps;
+
 import java.util.Collection;
 import java.util.Map;
 
@@ -9,7 +11,7 @@ import java.util.Map;
 public class DocumentPropertyRepository implements PropertyRepository {
 
     private String name;
-    private Map<String, PropertyNode> nodeMap;
+    private Map<String, PropertyNode> nodeMap = Maps.newHashMap();
 
     @Override
     public String getName() {

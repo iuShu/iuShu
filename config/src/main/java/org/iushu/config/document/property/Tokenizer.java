@@ -22,7 +22,7 @@ public class Tokenizer {
 
         List<String> temp = Lists.newArrayList();
         if (key.contains("."))
-            temp.addAll(Arrays.asList(key.split(".")));
+            temp.addAll(Arrays.asList(key.split("\\.")));
         else
             temp.add(key);
 
@@ -30,9 +30,12 @@ public class Tokenizer {
         this.tokenizer = temp;
     }
 
+    /**
+     * @return next key, always return last key if reached tail.
+     */
     public String next() {
         if (index >= tokenizer.size())
-            return "";
+            return tokenizer.get(tokenizer.size() - 1);
         return tokenizer.get(index++);
     }
 

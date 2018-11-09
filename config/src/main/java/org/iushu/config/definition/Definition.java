@@ -1,6 +1,7 @@
 package org.iushu.config.definition;
 
 import org.iushu.config.document.Document;
+import org.iushu.config.document.property.PropertyRepository;
 import org.iushu.config.document.resolver.Resolver;
 import org.iushu.config.resource.Resource;
 
@@ -19,6 +20,6 @@ public interface Definition {
 
     Document getDocument();
 
-    void resolve(Resolver resolver);
+    PropertyRepository resolve(Resolver resolver) throws Exception;
 
 }

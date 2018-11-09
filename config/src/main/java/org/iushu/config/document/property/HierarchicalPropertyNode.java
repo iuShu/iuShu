@@ -17,4 +17,8 @@ public interface HierarchicalPropertyNode extends PropertyNode {
      */
     Map<String, PropertyNode> child();
 
+    void addParent(HierarchicalPropertyNode parent);
+
+    void addChild(HierarchicalPropertyNode child);
+
 }

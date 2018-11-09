@@ -1,6 +1,7 @@
 package org.iushu.config.definition;
 
 import org.iushu.config.document.Document;
+import org.iushu.config.document.property.PropertyRepository;
 import org.iushu.config.document.resolver.Resolver;
 import org.iushu.config.resource.Resource;
 
@@ -14,7 +15,7 @@ public class XmlDefinition extends AbstractDefinition {
     }
 
     @Override
-    public void resolve(Resolver resolver) {
-
+    public PropertyRepository resolve(Resolver resolver) {
+        return null;
     }
 }

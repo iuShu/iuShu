@@ -20,7 +20,7 @@ public abstract class AbstractLocalResource extends AbstractResource {
 
         String fileName = splitPrefixDir();
 
-        String[] nameInfo = fileName.split(".");
+        String[] nameInfo = fileName.split("\\.");
         if (nameInfo != null) { // file resource
             name = nameInfo[0];
             suffix = nameInfo[1];
@@ -52,7 +52,7 @@ public abstract class AbstractLocalResource extends AbstractResource {
     private String splitPrefixDir() {
         int separatorIndex = getUrl().lastIndexOf(File.separator);
         if (separatorIndex > 1)
-            return getUrl().substring(separatorIndex);
+            return getUrl().substring(separatorIndex + 1);
         return getUrl();
     }
 

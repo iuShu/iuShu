@@ -1,10 +1,12 @@
 package org.iushu.config.resource;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
-import java.util.Map;
-import java.util.Objects;
+import java.net.URL;
+import java.util.*;
 
 /**
  * Util of AbstractResource
@@ -41,6 +43,21 @@ public class Resources {
     }
 
     /**
+     * Auto scanning configuration files under current project.
+     * @return List<Resource>
+     */
+    public static List<Resource> autoScan() {
+        return autoScan("xml", "properties");
+    }
+
+    public static List<Resource> autoScan(String... suffixes) {
+        List<Resource> resources = Lists.newArrayList();
+        URL projectUrl = Resources.class.getClassLoader().getResource("");
+        recursiveScan(new File(projectUrl.getPath()), resources, suffixes);
+        return resources;
+    }
+
+    /**
      * @param relativePath the path relative of current project.
      * @return AbstractResource the corresponding resource of the given relative path.
      */
@@ -66,7 +83,7 @@ public class Resources {
     private static Resource newResource(int registerType, Object param) {
         Class<?> resourceClass = documentResources.get(registerType);
         if (resourceClass == null)
-            return null;
+            throw new RuntimeException("No such resource type have ben defined for registerType: " + registerType);
 
         try {
             Constructor<Resource> constructor = (Constructor<Resource>) resourceClass.getConstructor(String.class);
@@ -80,5 +97,23 @@ public class Resources {
     private static void checkResourceType(int resourceType) {
         if (resourceType <= RESOURCE_DIR)
             throw new IllegalArgumentException("the resource type should greater than 2");
+    }
+
+    private static void recursiveScan(File directory, List<Resource> resources, String... suffixes) {
+        File[] files = directory.listFiles();
+        for (File f : files) {
+            if (f.isFile() && matchSuffix(f.getPath(), suffixes))
+                resources.add(new FileResource(f.getAbsolutePath()));
+            else if (f.isDirectory())
+                recursiveScan(f, resources, suffixes);
+        }
+    }
+
+    private static boolean matchSuffix(String file, String... suffixes) {
+        String suffix = file.substring(file.lastIndexOf(".") + 1);
+        for (String suf : suffixes)
+            if (suf.equalsIgnoreCase(suffix))
+                return true;
+        return false;
     }
 }

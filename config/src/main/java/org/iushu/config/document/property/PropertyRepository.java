@@ -16,7 +16,21 @@ public interface PropertyRepository {
 
     Collection<String> keys();
 
+    PropertyNode getRootPropertyNode(String key);
+
     Object getValue(Tokenizer key);
 
     void put(PropertyNode propertyNode);
+
+    /**
+     * e.g.
+     *  PropertyRepository contains: server.heartbeat.interval
+     *  matchingDepth("server.heartbeat")
+     *  will return PropertyRepository[heartbeat] child=[interval] parent=[server]
+     *
+     * @param key the given key
+     * @return the property node where the key is matched to the maximum depth.
+     */
+    PropertyNode matchingDepth(Tokenizer key);
+
 }

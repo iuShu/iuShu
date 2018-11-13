@@ -3,6 +3,7 @@ package org.iushu.config;
 import org.iushu.config.definition.Definition;
 import org.iushu.config.document.Document;
 import org.iushu.config.document.property.PropertyRepository;
+import org.iushu.config.document.property.Tokenizer;
 import org.iushu.config.document.resolver.JdkPropResolver;
 import org.iushu.config.document.resolver.Resolver;
 import org.iushu.config.resource.Resource;
@@ -76,7 +77,14 @@ public class ConfigEngine {
         if (repository == null)
             return;
 
-        System.out.println(repository);
+        System.out.println(repository.getValue(new Tokenizer("server.heartbeat.interval")));
+        System.out.println(repository.getValue(new Tokenizer("server.heartbeat.offline.valve")));
+        System.out.println(repository.getValue(new Tokenizer("netty.host")));
+        System.out.println(repository.getValue(new Tokenizer("netty.port")));
+        System.out.println(repository.getValue(new Tokenizer("netty.throughput.watermark")));
+        System.out.println(repository.getValue(new Tokenizer("a.b.c.d.e.f")));
+        System.out.println(repository.getValue(new Tokenizer("a.b.c.d.cat")));
+        System.out.println(repository.getValue(new Tokenizer("a.b.c.dwell")));
     }
 
     public static void singleXml() {

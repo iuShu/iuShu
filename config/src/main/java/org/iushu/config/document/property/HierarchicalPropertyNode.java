@@ -21,4 +21,5 @@ public interface HierarchicalPropertyNode extends PropertyNode {
 
     void addChild(HierarchicalPropertyNode child);
 
+    PropertyNode getChild(String key);
 }

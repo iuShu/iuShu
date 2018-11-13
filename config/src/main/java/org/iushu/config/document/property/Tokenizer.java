@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * index value range: 0 ~ [tokenizer.size()-1];
+ *
  * Created by iuShu on 18-11-6
  */
 public class Tokenizer {
@@ -30,13 +32,38 @@ public class Tokenizer {
         this.tokenizer = temp;
     }
 
+    public String first() {
+        return tokenizer.get(0);
+    }
+
+    public String last() {
+        return tokenizer.get(tokenizer.size()-1);
+    }
+
+    public String current() {
+        if (index == tokenizer.size())
+            return last();
+        return tokenizer.get(index);
+    }
+
     /**
-     * @return next key, always return last key if reached tail.
+     * The method will moving next the index of tokenize
+     * @return the key which corresponding to index, always return last key if reached tail.
      */
     public String next() {
         if (index >= tokenizer.size())
-            return tokenizer.get(tokenizer.size() - 1);
+            return last();
         return tokenizer.get(index++);
+    }
+
+    /**
+     * move back one step.
+     * @return the key which corresponding to index, always return first key if reached head.
+     */
+    public String back() {
+        if (index <= 0)
+            return first();
+        return tokenizer.get(--index);
     }
 
     /**
@@ -44,6 +71,10 @@ public class Tokenizer {
      */
     public boolean isEnd() {
         return index == tokenizer.size();
+    }
+
+    public void reset() {
+        index = 0;
     }
 
     public String getKey() {

@@ -50,15 +50,20 @@ public class DefaultPropertyNode implements HierarchicalPropertyNode {
     @Override
     public void addParent(HierarchicalPropertyNode parent) {
         if (parent == null)
-            return;
+            throw new IllegalArgumentException("Could not add a null parent");
         this.parent = parent;
     }
 
     @Override
     public void addChild(HierarchicalPropertyNode child) {
         if (child == null)
-            return;
+            throw new IllegalArgumentException("Could not add a null child");
         this.childes.put(child.getKey(), child);
+    }
+
+    @Override
+    public PropertyNode getChild(String key) {
+        return childes.get(key);
     }
 
     @Override

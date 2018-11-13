@@ -22,13 +22,25 @@ public class JdkPropResolver implements Resolver {
         Properties properties = new Properties();
         try {
             properties.load(is);
-            DocumentPropertyRepository repository = new DocumentPropertyRepository();
+            DocumentPropertyRepository repository = new DocumentPropertyRepository(document.getName());
+
             for (Map.Entry<Object, Object> entry : properties.entrySet()) {
                 Tokenizer key = new Tokenizer(entry.getKey().toString());
-                // properties configuration do not have Property.
-                PropertyNode propertyNode = ResolverFlow.newPropertyNode(key, null, entry.getValue());
-                repository.put(propertyNode);
+
+                String rootKey = key.first();
+                PropertyNode root = repository.getRootPropertyNode(rootKey);
+                if (root == null) {
+                    PropertyNode node = ResolverFlow.newPropertyNode(key, null, entry.getValue());
+                    repository.put(node);
+                }
+                else { // root node have existed, merge behind nodes
+                    HierarchicalPropertyNode node = repository.matchingDepth(key);
+                    key.back(); // correction
+                    PropertyNode behind = ResolverFlow.newPropertyNode(key, null, entry.getValue());
+                    node.addChild((HierarchicalPropertyNode) behind);
+                }
             }
+
             return repository;
         } catch (IOException e) {
             e.printStackTrace();
@@ -37,4 +49,5 @@ public class JdkPropResolver implements Resolver {
         }
         return null;
     }
+
 }

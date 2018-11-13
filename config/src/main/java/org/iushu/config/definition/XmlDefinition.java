@@ -15,7 +15,7 @@ public class XmlDefinition extends AbstractDefinition {
     }
 
     @Override
-    public PropertyRepository resolve(Resolver resolver) {
-        return null;
+    public PropertyRepository resolve(Resolver resolver) throws Exception {
+        return resolver.resolve(getDocument());
     }
 }

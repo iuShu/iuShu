@@ -1,0 +1,44 @@
+
+
+1. register resource
+    1.1 scan project directories and filters for optional.
+    1.2 configuration types: props, xml, yml and .... to be extension.
+    1.3 catch configurations and store path.
+
+2. resolve resource
+    2.1 configuration will be resolving to Document and other essential components.
+    2.2 core resolver interface: Resolver.
+    2.3 complex node resolve... done.
+    2.4 lightweight and necessary components like Resources(Deprecated), ResolveFlow and so on.
+    2.5 resolve logic
+
+3. store configuration
+    3.1 Map ?
+    3.2 less complex components like PropertyRepository, PropertyNode, Property and so on.
+    3.3 Map .
+
+4. refactor resource scan phase (2018.11.15)
+    4.1 @see org.iushu.config.resource.scanner.*
+    4.2 general and flexible resource scan operation.
+    4.3 whether supports the wildcard ? cancel.
+
+5. resource name require unique.
+    5.1 it's not allow exists two resources which have the same name.
+
+6. import slf4j (2018.11.16)
+    6.1 add logger into all components.
+
+7. the validation of arguments are delegate to Guava Preconditions.
+
+8. integration with '...'
+   8.1 supervisor performance
+
+9. hotswap, which file listeners would be accept.
+    9.1 log4j - FileWatchDog
+    9.2 java.nio.File - WatchService
+    9.3 common.io - FileAlterationObserver
+
+10. integration with Spring
+
+9. distribution config
+    9.1 too much work(hold it)

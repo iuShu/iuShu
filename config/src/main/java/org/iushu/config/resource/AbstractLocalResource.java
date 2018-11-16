@@ -42,9 +42,9 @@ public abstract class AbstractLocalResource extends AbstractResource {
      * <p>
      *     e.g.
      *      "home/demo/file.txt" will be return "file.txt"
-     *      "home/demo" will be return "demo"
+     *      "home/demo" will be return "demo"                   @Deprecated
      *      "file.txt" will be return "file.txt"
-     *      "demo" will be return "demo".
+     *      "demo" will be return "demo".                       @Deprecated
      * </p>
      *
      * @return file name or directory name without parent directory.

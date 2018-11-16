@@ -2,6 +2,8 @@ package org.iushu.config.document.resolver;
 
 import org.iushu.config.document.Document;
 import org.iushu.config.document.property.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +18,12 @@ import java.util.Properties;
  */
 public class JdkPropResolver implements Resolver {
 
+    private static Logger logger = LoggerFactory.getLogger("Configuration");
+
     @Override
     public PropertyRepository resolve(Document document) throws Exception {
+        logger.debug("[resolver-start] document: {}", document.getName());
+
         InputStream is = document.open();
         Properties properties = new Properties();
         try {
@@ -41,9 +47,10 @@ public class JdkPropResolver implements Resolver {
                 }
             }
 
+            logger.debug("[resolver-end] document: {}", document.getName());
             return repository;
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } finally {
             is.close();
         }

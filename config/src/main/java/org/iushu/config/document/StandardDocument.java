@@ -52,7 +52,4 @@ public class StandardDocument implements Document {
         return resource.open();
     }
 
-    public void fill(PropertyRepository repository) {
-        this.repository = repository;
-    }
 }

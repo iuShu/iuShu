@@ -13,29 +13,12 @@
     <artifactId>config</artifactId>
 
     <name>config</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
+    <url>https://iushu.github.io</url>
 
     <properties>
         <project.build.sourceEncoding>${global.encoding}</project.build.sourceEncoding>
         <maven.compiler.source>${global.java.version}</maven.compiler.source>
         <maven.compiler.target>${global.java.version}</maven.compiler.target>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-            <version>${global.junit.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons.lang3.version}</version>
-        </dependency>
-
-    </dependencies>
 
 </project>

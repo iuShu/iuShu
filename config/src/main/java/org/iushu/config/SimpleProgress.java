@@ -17,13 +17,19 @@ import java.util.Properties;
 /**
  * Created by iuShu on 18-10-31
  */
-public class OriginalConfigParseProgress {
+public class SimpleProgress {
 
     public static void main(String[] args) throws Exception {
 
 //        parseProps();
 
-        parseXml();
+//        parseXml();
+
+//        nio();
+
+//        commonio();
+
+        log4j();
 
     }
 
@@ -52,6 +58,18 @@ public class OriginalConfigParseProgress {
             if (!(it.next() instanceof Element))
                 continue;
         }
+    }
+
+    private static void nio() {
+
+    }
+
+    private static void commonio() {
+
+    }
+
+    private static void log4j() {
+
     }
 
 }

@@ -1,8 +1,7 @@
 package org.iushu.config.resource;
 
-import org.iushu.config.document.StandardDocument;
+import org.iushu.config.document.Document;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 /**
@@ -28,7 +27,7 @@ public interface Resource {
      *
      * @return deliver the resources to Document
      */
-    StandardDocument deliver();
+    Document deliver();
 
     /**
      * Open the resource as InputStream, singleProps or multiple stream is possible.

@@ -1,7 +1,7 @@
 package org.iushu.config.zoo;
 
 import org.iushu.config.annotation.AutoConfig;
-import org.iushu.config.annotation.ConfigValue;
+import org.iushu.config.annotation.AutoValue;
 
 /**
  * Sample usage.
@@ -9,18 +9,18 @@ import org.iushu.config.annotation.ConfigValue;
  * Created by iuShu on 18-10-25
  */
 @AutoConfig(name = {"server"})
-public class ServerOption {
+public class ServerConfig {
 
-    @ConfigValue(index = "server.netty.host")
+    @AutoValue(key = "server.netty.host")
     private String host;
 
-    @ConfigValue(index = "server.netty.port")
+    @AutoValue(key = "server.netty.port")
     private int port;
 
-    @ConfigValue(index = "server.netty.heartbeat.interval")
+    @AutoValue(key = "server.netty.heartbeat.interval")
     private int heartbeatInterval;
 
-    @ConfigValue(index = "server.netty.heartbeat.offline.valve")
+    @AutoValue(key = "server.netty.heartbeat.offline.valve")
     private int offlineValve; // cut off if heartbeat failure times exceeded valve.
 
     public String getHost() {
@@ -57,7 +57,7 @@ public class ServerOption {
 
     @Override
     public String toString() {
-        return "ServerOption{" +
+        return "ServerConfig{" +
                 "host='" + host + '\'' +
                 ", port=" + port +
                 ", heartbeatInterval=" + heartbeatInterval +

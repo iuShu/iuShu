@@ -12,10 +12,7 @@ public interface HierarchicalPropertyNode extends PropertyNode {
      */
     PropertyNode parent();
 
-    /**
-     * @return the child of this node, could be one or more.
-     */
-    Map<String, PropertyNode> child();
+    Map<String, PropertyNode> childes();
 
     void addParent(HierarchicalPropertyNode parent);
 

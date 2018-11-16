@@ -33,9 +33,16 @@
             <property name="password">nopassword</property>
             <property name="driver">xxx.xxx.xxx.Driver</property>
         </bean>
+        <bean id="daoFactory" class="xxx.xx.CommonDaoFactory">
+            <property name="cache">5</property>
+            <property ref="com.project.dao"/>
+        </bean>
+        <connection>10</connection>
     </environment>
 
     <import>1</import>
+
+    <bean id="factory" class="xxx.xxx.DriverFactory"/>
 
     <!--
         PropertyNode

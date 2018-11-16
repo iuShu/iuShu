@@ -1,35 +1,36 @@
 package org.iushu.config.document.property;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * index value range: 0 ~ [tokenizer.size()-1];
+ * key value range: 0 ~ [tokenizer.size()-1];
  *
  * Created by iuShu on 18-11-6
  */
 public class Tokenizer {
 
+    public static final String SYMBOL_NODE = ".";
+    public static final String SYMBOL_PROPERTY = "#";
+    public static final String SYMBOL_PROPERTY_MATCH = "=";
+
     private String key;
     private List<String> tokenizer;
     private int index;
-    private boolean isLast;
+
+    public static Tokenizer create(String key) {
+        return new Tokenizer(key);
+    }
 
     public Tokenizer(String key) {
-        if (StringUtils.isEmpty(key))
-            throw new IllegalArgumentException("key could not be null");
-
-        List<String> temp = Lists.newArrayList();
-        if (key.contains("."))
-            temp.addAll(Arrays.asList(key.split("\\.")));
-        else
-            temp.add(key);
-
+        Preconditions.checkArgument(StringUtils.isEmpty(key), "Key could not be null");
         this.key = key;
-        this.tokenizer = temp;
+        this.tokenizer = parse();
     }
 
     public String first() {
@@ -47,8 +48,8 @@ public class Tokenizer {
     }
 
     /**
-     * The method will moving next the index of tokenize
-     * @return the key which corresponding to index, always return last key if reached tail.
+     * The method will moving next the key of tokenize
+     * @return the key which corresponding to key, always return last key if reached tail.
      */
     public String next() {
         if (index >= tokenizer.size())
@@ -58,7 +59,7 @@ public class Tokenizer {
 
     /**
      * move back one step.
-     * @return the key which corresponding to index, always return first key if reached head.
+     * @return the key which corresponding to key, always return first key if reached head.
      */
     public String back() {
         if (index <= 0)
@@ -73,11 +74,23 @@ public class Tokenizer {
         return index == tokenizer.size();
     }
 
-    public void reset() {
-        index = 0;
-    }
-
     public String getKey() {
         return key;
+    }
+
+    private List<String> parse() {
+        if (!key.contains(SYMBOL_NODE))
+            return Lists.newArrayList(key);
+
+        String[] nodeKeys = key.split("\\" + SYMBOL_NODE);
+        String tail = nodeKeys[nodeKeys.length - 1];
+        if (!tail.contains(SYMBOL_PROPERTY))
+            return Lists.newArrayList(nodeKeys);
+
+        String[] keys = tail.split("\\" + SYMBOL_PROPERTY);
+        nodeKeys[nodeKeys.length - 1] = keys[0];
+        List<String> list = Lists.newArrayList(nodeKeys);
+        list.add(keys[1]);
+        return list;
     }
 }

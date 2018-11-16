@@ -14,7 +14,7 @@
     </modules>
 
     <name>root</name>
-    <url>http://www.example.com</url>
+    <url>https://iushu.github.io</url>
 
     <properties>
         <global.encoding>UTF-8</global.encoding>
@@ -25,7 +25,10 @@
         <commons.lang3.version>3.8</commons.lang3.version>
         <commons.logging.version>1.2</commons.logging.version>
         <commons.beanutils.version>1.9.3</commons.beanutils.version>
-        <dom4j.verson>1.6.1</dom4j.verson>
+        <slf4j.version>1.7.25</slf4j.version>
+        <slf4j.log4j.version>1.7.25</slf4j.log4j.version>
+        <log4j.version>1.2.17</log4j.version>
+        <dom4j.version>1.6.1</dom4j.version>
 
         <project.build.sourceEncoding>${global.encoding}</project.build.sourceEncoding>
         <maven.compiler.source>${global.java.version}</maven.compiler.source>
@@ -79,7 +82,7 @@
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
-            <version>${dom4j.verson}</version>
+            <version>${dom4j.version}</version>
         </dependency>
 
         <dependency>
@@ -87,6 +90,26 @@
             <artifactId>jaxen</artifactId>
             <version>1.1-beta-6</version>
             <optional>true</optional>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.log4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
 
     </dependencies>

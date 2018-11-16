@@ -16,15 +16,19 @@ public interface PropertyNode {
     String getKey();
 
     /**
+     * @return the property of node
+     */
+    Property getProperty();
+
+    /**
      * @return the value of this node
      */
     Object getValue(Tokenizer key);
 
-    void setValue(Object value);
-
     /**
-     * @return the property of node
+     * set value to this node
+     * @param value value
      */
-    Property getProperty();
+    void setValue(Object value);
 
 }

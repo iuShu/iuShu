@@ -50,10 +50,10 @@ public class Resources {
         return autoScan("xml", "properties");
     }
 
-    public static List<Resource> autoScan(String... suffixes) {
+    public static List<Resource> autoScan(String... contains) {
         List<Resource> resources = Lists.newArrayList();
         URL projectUrl = Resources.class.getClassLoader().getResource("");
-        recursiveScan(new File(projectUrl.getPath()), resources, suffixes);
+        recursiveScan(new File(projectUrl.getPath()), resources, contains);
         return resources;
     }
 

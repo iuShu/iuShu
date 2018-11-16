@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 /**
  * Indicates that a configuration Bean could be inject property automatically.
  *
- * @see org.iushu.config.annotation.ConfigValue
+ * @see AutoValue
  *
  * Created by iuShu on 18-10-25
  */

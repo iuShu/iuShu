@@ -1,5 +1,6 @@
 package org.iushu.config.document.property;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -34,7 +35,7 @@ public class DefaultPropertyNode implements HierarchicalPropertyNode {
         this.property = property;
         this.value = value;
         this.parent = parent;
-        this.childes = childes == null ? Maps.newHashMap() : childes;
+        this.childes = childes == null ? Maps.newHashMap() : Maps.newHashMap(childes);
     }
 
     @Override
@@ -43,22 +44,34 @@ public class DefaultPropertyNode implements HierarchicalPropertyNode {
     }
 
     @Override
-    public Map<String, PropertyNode> child() {
-        return childes;
+    public Map<String, PropertyNode> childes() {
+        return Maps.newHashMap(childes);
     }
 
     @Override
     public void addParent(HierarchicalPropertyNode parent) {
-        if (parent == null)
-            throw new IllegalArgumentException("Could not add a null parent");
+        Preconditions.checkNotNull(parent);
         this.parent = parent;
     }
 
     @Override
     public void addChild(HierarchicalPropertyNode child) {
-        if (child == null)
-            throw new IllegalArgumentException("Could not add a null child");
-        this.childes.put(child.getKey(), child);
+        Preconditions.checkNotNull(child);
+
+        PropertyNode node = childes.get(child.getKey());
+        if (node == null) {
+            childes.put(child.getKey(), child);
+            return;
+        }
+
+        if (node instanceof MultiplePropertyNode)
+            ((MultiplePropertyNode) node).addNode(child);
+        else {
+            // PropertyNode transform to MultiplePropertyNode
+            MultiplePropertyNode newNode = new MultiplePropertyNode(child.getKey(), node);
+            newNode.addNode(child);
+            childes.put(child.getKey(), newNode);
+        }
     }
 
     @Override
@@ -96,4 +109,5 @@ public class DefaultPropertyNode implements HierarchicalPropertyNode {
     public void setValue(Object value) {
         this.value = value;
     }
+
 }

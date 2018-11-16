@@ -3,33 +3,62 @@ package org.iushu.config.document.resolver;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.iushu.config.document.Document;
-import org.iushu.config.document.property.DefaultPropertyNode;
-import org.iushu.config.document.property.DocumentPropertyRepository;
-import org.iushu.config.document.property.PropertyNode;
-import org.iushu.config.document.property.PropertyRepository;
+import org.iushu.config.document.property.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
+import java.util.List;
+
+import static org.iushu.config.document.resolver.ResolverFlow.*;
 
 /**
+ * Default xml resolver is provided by Dom4j.
+ *
  * Created by iuShu on 18-11-9
  */
 public class Dom4jXmlResolver implements Resolver {
 
+    private static Logger logger = LoggerFactory.getLogger("Configuration");
+
     @Override
     public PropertyRepository resolve(Document document) throws Exception {
+        logger.debug("[resolver-start] document: {}", document.getName());
+
         InputStream is = document.open();
         try {
             SAXReader reader = new SAXReader();
             org.dom4j.Document xmlDoc = reader.read(is);
-            int nodeCount = xmlDoc.nodeCount(); // includes comment node counts.
-            Element root = xmlDoc.getRootElement();
+
             PropertyRepository repository = new DocumentPropertyRepository(document.getName());
-//            PropertyNode propertyNode = new DefaultPropertyNode();
+            Element root = xmlDoc.getRootElement();
+            PropertyNode rootNode = newXmlPlainNode(root);
+            recursive(root, (HierarchicalPropertyNode) rootNode);
+            repository.put(rootNode);
+
+            logger.debug("[resolver-start] document: {}", document.getName());
+            return repository;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } finally {
             is.close();
         }
         return null;
     }
+
+    private void recursive(Element element, HierarchicalPropertyNode parent) {
+        if (reachedTail(element))
+            return;
+
+        List<Element> elements = element.elements();
+        for (Element e : elements) {
+            PropertyNode node = newXmlNode(e, parent);
+            recursive(e, (HierarchicalPropertyNode) node);
+        }
+    }
+
+    private boolean reachedTail(Element element) {
+        return element.elements().isEmpty();
+    }
+
 }

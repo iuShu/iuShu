@@ -1,5 +1,6 @@
 package org.iushu.config.document.property;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,8 +16,7 @@ public class DocumentPropertyRepository implements PropertyRepository {
     private Map<String, PropertyNode> nodeMap = Maps.newHashMap();
 
     public DocumentPropertyRepository(String name) {
-        if (StringUtils.isEmpty(name))
-            throw new IllegalArgumentException("property repository requires a name");
+        Preconditions.checkArgument(StringUtils.isEmpty(name), "PropertyRepository requires a name");
         this.name = name;
     }
 
@@ -45,9 +45,7 @@ public class DocumentPropertyRepository implements PropertyRepository {
 
     @Override
     public void put(PropertyNode propertyNode) {
-        if (propertyNode == null)
-            throw new IllegalArgumentException("PropertyNode could not be null in repository");
-
+        Preconditions.checkNotNull(propertyNode, "It's not allow to put a NULL PropertyNode into PropertyRepository");
         nodeMap.put(propertyNode.getKey(), propertyNode);
     }
 

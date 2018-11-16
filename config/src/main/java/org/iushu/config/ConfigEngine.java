@@ -1,44 +1,23 @@
 package org.iushu.config;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggerFactory;
 import org.iushu.config.definition.Definition;
 import org.iushu.config.document.Document;
 import org.iushu.config.document.property.PropertyRepository;
 import org.iushu.config.document.property.Tokenizer;
-import org.iushu.config.document.resolver.JdkPropResolver;
-import org.iushu.config.document.resolver.Resolver;
 import org.iushu.config.resource.Resource;
 import org.iushu.config.resource.Resources;
+import org.iushu.config.resource.scanner.ResourceScanner;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by iuShu on 18-10-23
  */
 public class ConfigEngine {
-
-    /**
-     * 1. register configuration url
-     *      1.1 scan project directories and filters for optional.
-     *      1.2 configuration types: props and xml and ...(TODO).
-     *      1.3 catch target configurations and store path.
-     *
-     * 2. resolve configuration
-     *      2.1 Configuration is regard as a Document, DOM node as Node.
-     *      2.1 core resolver: Resolver.
-     *      2.2 complex node resolve...(TODO).
-     *
-     * 3. store configuration url
-     *      3.1 Map ?
-     *
-     * 3. exclude directors or files
-     *
-     * 4. hotswap
-     *
-     * 5. integration with Spring
-     *
-     * 6. distribution config
-     *
-     */
 
     public static void main(String[] args) {
 
@@ -58,8 +37,11 @@ public class ConfigEngine {
 
 //        Resource resource = Resources.registerFile("evil");
 
-        singleProps();
+//        singleProps();
 
+//        singleXml();
+
+        afterRefactorScanner();
     }
 
     public static void singleProps() {
@@ -69,8 +51,7 @@ public class ConfigEngine {
         Definition definition = document.getDefinition();
         PropertyRepository repository = null;
         try {
-            Resolver resolver = new JdkPropResolver();
-            repository = definition.resolve(resolver);
+            repository = definition.resolve();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,7 +69,31 @@ public class ConfigEngine {
     }
 
     public static void singleXml() {
+        List<Resource> resources = Resources.autoScan();
+        Resource resource = resources.get(0);
+        Document document = resource.deliver();
+        Definition definition = document.getDefinition();
+        PropertyRepository repository = null;
+        try {
+            repository = definition.resolve();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (repository == null)
+            return;
 
+        System.out.println(repository.getValue(Tokenizer.create("configuration.import")));
+        System.out.println(repository.getValue(Tokenizer.create("configuration.environment.connection")));
+        System.out.println(repository.getValue(Tokenizer.create("configuration.properties.property#name=username")));
+    }
+
+    public static void afterRefactorScanner() {
+        ResourceScanner scanner = ResourceScanner.location("org/iushu/config/octopus");
+        ConfigContext configContext = new ApplicationConfigContext(scanner);
+        configContext.load();
+
+        Object value = configContext.getValue("database", "configuration.properties.property");
+        System.out.println(value);
     }
 
 }

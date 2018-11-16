@@ -1,7 +1,7 @@
 package org.iushu.config.resource;
 
-import org.iushu.config.definition.PropDefinition;
-import org.iushu.config.definition.XmlDefinition;
+import org.iushu.config.definition.DefaultPropertiesDefinition;
+import org.iushu.config.definition.DefaultXmlDefinition;
 import org.iushu.config.document.StandardDocument;
 
 import java.io.FileInputStream;
@@ -22,11 +22,11 @@ public class FileResource extends AbstractLocalResource {
     public StandardDocument deliver() {
         return new StandardDocument(getName(), this, document -> {
             if ("xml".equalsIgnoreCase(getSuffix()))
-                return new XmlDefinition(getName(), document);
+                return new DefaultXmlDefinition(getName(), document);
             if ("properties".equalsIgnoreCase(getSuffix()))
-                return new PropDefinition(getName(), document);
+                return new DefaultPropertiesDefinition(getName(), document);
 
-            throw new RuntimeException("Unsupported file type: " + getSuffix());
+            throw new RuntimeException("Unsupported resource type: " + getUrl());
         });
     }
 

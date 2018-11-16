@@ -10,24 +10,18 @@ import java.util.Map;
  */
 public class MultipleProperty implements Property {
 
-    private PropertyNode propertyNode;
     private Map<String, Property> propertyMap;
 
-    public MultipleProperty(PropertyNode propertyNode, Property... propertyArray) {
-        if (propertyNode == null)
-            throw new IllegalArgumentException("Property is belongs to a PropertyNode.");
-
+    public MultipleProperty(Property... propertyArray) {
         Map<String, Property> temp = Maps.newHashMap();
         for (Property property : propertyArray)
             temp.put(property.key(), property);
-
-        this.propertyNode = propertyNode;
-        this.propertyMap = Collections.unmodifiableMap(temp);
+        this.propertyMap = Maps.newHashMap(temp);
     }
 
-    @Override
-    public PropertyNode getNode() {
-        return propertyNode;
+    public void addProperty(Property... propertyArray) {
+        for (Property property : propertyArray)
+            this.propertyMap.put(property.key(), property);
     }
 
     @Override
@@ -40,11 +34,16 @@ public class MultipleProperty implements Property {
         throw new UnsupportedOperationException();
     }
 
-    public Object value(String key) {
+    @Override
+    public boolean isMultiple() {
+        return true;
+    }
+
+    public Object getValue(String key) {
         Property property = propertyMap.get(key);
-        if (property != null)
-            return property.value();
-        return null;
+        if (property == null)
+            return null;
+        return property.value();
     }
 
 }

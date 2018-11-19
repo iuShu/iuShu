@@ -28,7 +28,7 @@ public class Tokenizer {
     }
 
     public Tokenizer(String key) {
-        Preconditions.checkArgument(StringUtils.isEmpty(key), "Key could not be null");
+        Preconditions.checkArgument(StringUtils.isNotEmpty(key), "Key could not be null");
         this.key = key;
         this.tokenizer = parse();
     }

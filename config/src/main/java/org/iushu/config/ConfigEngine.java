@@ -88,11 +88,11 @@ public class ConfigEngine {
     }
 
     public static void afterRefactorScanner() {
-        ResourceScanner scanner = ResourceScanner.location("org/iushu/config/octopus");
+        ResourceScanner scanner = ResourceScanner.location("").excludeFileName("log4j");
         ConfigContext configContext = new ApplicationConfigContext(scanner);
         configContext.load();
 
-        Object value = configContext.getValue("database", "configuration.properties.property");
+        Object value = configContext.getValue("database", "configuration.properties.property#name=username");
         System.out.println(value);
     }
 

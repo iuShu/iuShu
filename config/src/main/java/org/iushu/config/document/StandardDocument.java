@@ -43,8 +43,13 @@ public class StandardDocument implements Document {
     }
 
     @Override
-    public PropertyRepository repository() {
+    public PropertyRepository getRepository() {
         return repository;
+    }
+
+    @Override
+    public void setRepository(PropertyRepository repository) {
+        this.repository = repository;
     }
 
     @Override

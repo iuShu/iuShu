@@ -12,7 +12,7 @@ public class KeyValueProperty implements Property {
     private Object value;
 
     public KeyValueProperty(String key, Object value) {
-        Preconditions.checkArgument(StringUtils.isEmpty(key), "Property requires a not-null key.");
+        Preconditions.checkArgument(!StringUtils.isEmpty(key), "Property requires a not-null key.");
         this.key = key;
         this.value = value;
     }

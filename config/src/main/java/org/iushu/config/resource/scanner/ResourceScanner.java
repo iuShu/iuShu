@@ -85,7 +85,7 @@ public class ResourceScanner {
 
         List<Resource> resources = Lists.newArrayList();
         for (String dir : locations) {
-            File file = new File(dir);
+            File file = new File(root + dir);
             if (file.exists())
                 recursiveScan(file, resources);
         }

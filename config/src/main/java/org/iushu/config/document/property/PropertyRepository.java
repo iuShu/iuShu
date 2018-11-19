@@ -10,7 +10,7 @@ import java.util.Collection;
 public interface PropertyRepository {
 
     /**
-     * @return the name of this property repository (default from document)
+     * @return the name of this property getRepository (default from document)
      */
     String getName();
 

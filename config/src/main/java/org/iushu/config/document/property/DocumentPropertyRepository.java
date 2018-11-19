@@ -16,7 +16,7 @@ public class DocumentPropertyRepository implements PropertyRepository {
     private Map<String, PropertyNode> nodeMap = Maps.newHashMap();
 
     public DocumentPropertyRepository(String name) {
-        Preconditions.checkArgument(StringUtils.isEmpty(name), "PropertyRepository requires a name");
+        Preconditions.checkArgument(StringUtils.isNotEmpty(name), "PropertyRepository requires a name");
         this.name = name;
     }
 

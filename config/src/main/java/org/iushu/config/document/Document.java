@@ -26,7 +26,9 @@ public interface Document {
     /**
      * @return the property which stores all properties of document.
      */
-    PropertyRepository repository();
+    PropertyRepository getRepository();
+
+    void setRepository(PropertyRepository repository);
 
     InputStream open() throws Exception;
 

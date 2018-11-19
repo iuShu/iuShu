@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ApplicationConfigContext implements ObservableConfigContext {
 
     private ResourceScanner scanner;
-    private Map<String, PropertyRepository> propertyRepositoryMap;
+    private Map<String, Document> documentMap;
 
     public ApplicationConfigContext(ResourceScanner scanner) {
         this.scanner = scanner;
@@ -27,30 +27,31 @@ public class ApplicationConfigContext implements ObservableConfigContext {
     @Override
     public void load() {
         List<Resource> resources = scanner.scan();
-        Map<String, PropertyRepository> map = Maps.newHashMap();
+        Map<String, Document> map = Maps.newHashMap();
         for (Resource resource : resources) {
             Document document = resource.deliver();
             Definition definition = document.getDefinition();
             try {
                 PropertyRepository repository = definition.resolve();
-                map.put(repository.getName(), repository);
+                document.setRepository(repository);
+                map.put(document.getName(), document);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        this.propertyRepositoryMap = new ConcurrentHashMap<>(map);
+        this.documentMap = new ConcurrentHashMap<>(map);
     }
 
     @Override
     public Object getValue(String configName, String configKey) {
-        if (propertyRepositoryMap == null || propertyRepositoryMap.isEmpty())
+        if (documentMap == null || documentMap.isEmpty())
             return null;
 
-        PropertyRepository repository = propertyRepositoryMap.get(configName);
-        if (repository == null)
+        Document document = documentMap.get(configName);
+        if (document == null || document.getRepository() == null)
             return null;
-        return repository.getValue(new Tokenizer(configKey));
+        return document.getRepository().getValue(new Tokenizer(configKey));
     }
 
     @Override

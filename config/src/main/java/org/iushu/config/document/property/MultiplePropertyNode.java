@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  * MultiplePropertyNode was a special PropertyNode which contains multiple nodes with the same key,
- * and this node should be regarding as a small intermediate repository.
+ * and this node should be regarding as a small intermediate getRepository.
  *
  * As a special PropertyNode, MultiplePropertyNode do not have Value and Property, so that it's
  * un-support to setValue() and getProperty().
@@ -47,14 +47,14 @@ public class MultiplePropertyNode implements PropertyNode {
     @Override
     public Object getValue(Tokenizer key) {
         String nodeKey = key.next();
-        if (!nodeKey.contains(Tokenizer.SYMBOL_PROPERTY_MATCH))
+        if (nodeKey.contains(Tokenizer.SYMBOL_PROPERTY_MATCH))
             return getPropertyNodeValue(nodeKey);
         return getPropertyValue(nodeKey);
     }
 
     public void addNode(PropertyNode node) {
         Preconditions.checkNotNull(node, "It's not allow to add a NULL Node into PropertyNode.");
-        Preconditions.checkArgument(!key.equals(node.getKey()), "The given PropertyNode should contains the same key as MultiplePropertyNode.");
+        Preconditions.checkArgument(key.equals(node.getKey()), "The given PropertyNode should contains the same key as MultiplePropertyNode.");
         nodes.add(node);
     }
 

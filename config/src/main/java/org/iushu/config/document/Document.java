@@ -28,8 +28,7 @@ public interface Document {
      */
     PropertyRepository getRepository();
 
-    void setRepository(PropertyRepository repository);
-
     InputStream open() throws Exception;
 
+    void resolve() throws Exception;
 }

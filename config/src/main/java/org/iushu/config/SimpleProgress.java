@@ -1,5 +1,6 @@
 package org.iushu.config;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.dom4j.Document;
 import org.dom4j.DocumentType;
 import org.dom4j.Element;
@@ -7,12 +8,22 @@ import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 import org.dom4j.tree.DefaultElement;
 
+import java.beans.PropertyDescriptor;
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.*;
+import java.nio.file.spi.FileSystemProvider;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by iuShu on 18-10-31
@@ -29,8 +40,11 @@ public class SimpleProgress {
 
 //        commonio();
 
-        log4j();
+//        log4j();
 
+//        customWatcher();
+
+        loadClass();
     }
 
     private static void parseProps() throws Exception {
@@ -60,8 +74,33 @@ public class SimpleProgress {
         }
     }
 
+    /**
+     * WatchService could receives two events in one modification because of the invisible tmp files.
+     */
     private static void nio() {
+        try {
+            String root = SimpleProgress.class.getClassLoader().getResource("").getPath();
+            FileSystem fileSystem = FileSystems.getDefault();
+            Path path = fileSystem.getPath(root);
+            WatchService watchService = fileSystem.newWatchService();
+            path.register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
+            while (true) {
+                System.out.println(">>> start");
+                WatchKey watchKey = watchService.take();
+                for (WatchEvent<?> watchEvent : watchKey.pollEvents()) // process events
+                    System.out.println(watchEvent.context() + ": " + watchEvent.kind().name());
 
+                boolean isValid = watchKey.reset();
+                if (!isValid) { // object is no longer registered
+                    System.out.println("cancel registration: " + watchKey);
+                    break;
+                }
+
+                System.out.println(">>> end");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void commonio() {
@@ -69,7 +108,40 @@ public class SimpleProgress {
     }
 
     private static void log4j() {
+//        String root = SimpleProgress.class.getClassLoader().getResource(".").getPath();
+        PropertyConfigurator.configureAndWatch("server.properties");
+    }
 
+    private static void customWatcher() {
+        String root = SimpleProgress.class.getClassLoader().getResource(".").getPath();
+        Thread watcher = new Thread(() -> {
+            try {
+                while (true) {
+                    TimeUnit.SECONDS.sleep(3);
+                    File file = new File(root + "server.properties");
+                    System.out.println(file.lastModified());
+                }
+            } catch (Exception e) {}
+        });
+        watcher.start();
+    }
+
+    private static void loadClass() throws Exception {
+        ClassLoader classLoader = SimpleProgress.class.getClassLoader(); // AppClassLoader
+        Class<?> clazz = classLoader.loadClass("org.iushu.config.zoo.ServerConfig");
+        Object instance = clazz.newInstance();
+        System.out.println("before: " + instance);
+
+        PropertyDescriptor propertyDescriptor = new PropertyDescriptor("port", clazz);
+        Class<?> propertyType = propertyDescriptor.getPropertyType();
+
+        PropertyEditor propertyEditor = PropertyEditorManager.findEditor(propertyType);
+        propertyEditor.setAsText("5889");
+        Object val = propertyEditor.getValue();
+
+        propertyDescriptor.getWriteMethod().invoke(instance, val);
+
+        System.out.println("after: " + instance);
     }
 
 }

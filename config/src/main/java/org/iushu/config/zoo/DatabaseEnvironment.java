@@ -9,23 +9,23 @@ import org.iushu.config.annotation.AutoValue;
 @AutoConfig(name = "database")
 public class DatabaseEnvironment {
 
-    @AutoValue(key = "configuration.environment.bean.property#name=url")
-    private String url;
-
-    @AutoValue(key = "configuration.environment.bean.property#name=username")
-    private String username;
-
-    @AutoValue(key = "configuration.environment.bean.property#name=password")
-    private String password;
-
-    @AutoValue(key = "configuration.environment.bean.property#name=driver")
-    private String driver;
-
-    @AutoValue(key = "configuration.environment.bean#id")
+    @AutoValue(key = "configuration.environment.bean.1#id")
     private String dataSourceId;
 
-    @AutoValue(key = "configuration.environment.bean#class")
+    @AutoValue(key = "configuration.environment.bean.1#class")
     private String dataSourceClass;
+
+    @AutoValue(key = "configuration.environment.bean.1.property.1")
+    private String url;
+
+    @AutoValue(key = "configuration.environment.bean.1.property.2")
+    private String username;
+
+    @AutoValue(key = "configuration.environment.bean.1.property.3")
+    private String password;
+
+    @AutoValue(key = "configuration.environment.bean.1.property.4")
+    private String driver;
 
     public String getUrl() {
         return url;

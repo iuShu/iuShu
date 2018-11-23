@@ -8,20 +8,20 @@ import org.iushu.config.annotation.AutoValue;
  *
  * Created by iuShu on 18-10-25
  */
-@AutoConfig(name = {"server"})
+@AutoConfig(name = "server")
 public class ServerConfig {
 
-    @AutoValue(key = "server.netty.host")
+    @AutoValue(key = "netty.host")
     private String host;
 
-    @AutoValue(key = "server.netty.port")
+    @AutoValue(key = "netty.port")
     private int port;
 
-    @AutoValue(key = "server.netty.heartbeat.interval")
+    @AutoValue(key = "server.heartbeat.interval")
     private int heartbeatInterval;
 
-    @AutoValue(key = "server.netty.heartbeat.offline.valve")
-    private int offlineValve; // cut off if heartbeat failure times exceeded valve.
+    @AutoValue(key = "server.heartbeat.offline.valve")
+    private int offlineValve; // cut off the connection if heartbeat failure times exceeded valve.
 
     public String getHost() {
         return host;

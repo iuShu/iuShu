@@ -16,14 +16,12 @@ public class StandardDocument implements Document {
 
     private String name;
     private Resource resource;
-    private DefineOperation defOpr;
     private Definition definition;
     private PropertyRepository repository;
 
     public StandardDocument(String name, Resource resource, DefineOperation defOpr) {
         this.name = name;
         this.resource = resource;
-        this.defOpr = defOpr;
         this.definition = defOpr.define(this);
     }
 
@@ -48,13 +46,16 @@ public class StandardDocument implements Document {
     }
 
     @Override
-    public void setRepository(PropertyRepository repository) {
-        this.repository = repository;
-    }
-
-    @Override
     public InputStream open() throws Exception {
         return resource.open();
     }
 
+    @Override
+    public void resolve() {
+        try {
+            repository = definition.resolve();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

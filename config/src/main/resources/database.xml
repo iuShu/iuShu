@@ -12,12 +12,16 @@
             key=properties value=null child=<property>,<property> property=null
                 key=property value=85364222 child=null property=<name:username>     KeyValueProperty
                 key=property value=123456abc  child=null property=<name:password>
-            key=environment value=null child=<bean>
+            key=environment value=null child=<bean>                                           MultiplePropertyNode
                 key=bean value=null child=<property>*4 property=<id:datasource>,<class:...>   MultipleProperty
                     key=property value=jdbc... child=null property=<name:url>
                     key=property value=root child=null property=<name:username>
                     key=property value=nopassword child=null property=<name:password>
                     key=property value=xxx.Driver child=null property=<name:driver>
+                key=bean value=null child=<property>*4 property=<id:daoFactory>,<class:...>   MultipleProperty
+                    key=property value= child=null property=<name:url>
+                    key=property value=root child=null property=<name:username>
+
 -->
 <configuration>
 

@@ -14,9 +14,8 @@ import java.lang.annotation.*;
 public @interface AutoConfig {
 
     /**
-     * configuration name for corresponding Bean,
-     * and it's able to import multiple configurations in one Bean.
+     * configuration name for corresponding Bean
      */
-    String[] name();
+    String name();
 
 }

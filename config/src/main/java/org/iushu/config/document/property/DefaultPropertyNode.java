@@ -2,6 +2,7 @@ package org.iushu.config.document.property;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -91,16 +92,21 @@ public class DefaultPropertyNode implements HierarchicalPropertyNode {
 
     @Override
     public Object getValue(Tokenizer key) {
-        // contain childes
+        String next = key.next();
+
+        // current node property value
+        if (next.contains(Tokenizer.SYMBOL_PROPERTY))
+            return getPropertyValue(next);
+
+        // contain childes and key is not end
         if (!childes.isEmpty()) {
-            PropertyNode propertyNode =  childes.get(key.next());
+            PropertyNode propertyNode = childes.get(next);
             if (propertyNode != null)
                 return propertyNode.getValue(key);
-            return null;
         }
 
-        // no childes
-        if (this.key.equalsIgnoreCase(key.next()))
+        // no childes or the key reached tail
+        if (this.key.equalsIgnoreCase(next) || StringUtils.isNumeric(next))
             return value;
         return null;
     }
@@ -108,6 +114,15 @@ public class DefaultPropertyNode implements HierarchicalPropertyNode {
     @Override
     public void setValue(Object value) {
         this.value = value;
+    }
+
+    public Object getPropertyValue(String propertyKey) {
+        String key = propertyKey.substring(1); // remove # property symbol
+        if (property instanceof MultipleProperty)
+            return ((MultipleProperty) property).getValue(key);
+        if (key.equals(property.key()))
+            return value;
+        return null;
     }
 
 }

@@ -2,6 +2,7 @@ package org.iushu.config.resource.scanner;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import org.iushu.config.context.ConfigContext;
 import org.iushu.config.resource.FileResource;
 import org.iushu.config.resource.Resource;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -23,7 +25,7 @@ import java.util.Set;
  */
 public class ResourceScanner {
 
-    private static Logger logger = LoggerFactory.getLogger("Configuration");
+    private static Logger logger = LoggerFactory.getLogger(ConfigContext.DEFAULT_LOGGER);
 
     public static final int INCLUDE_FILE_SUFFIX = 0x01;
     public static final int EXCLUDE_FILE_NAME = 0x04;
@@ -37,38 +39,44 @@ public class ResourceScanner {
     private ScanFilter fileFilter;
     private ScanFilter dirFilter;
 
-    private String root; // project root directory
     private Set<String> locations;
 
-    private static final ResourceScanner INSTANCE = new ResourceScanner();
+    private static String root = ResourceScanner.class.getClassLoader().getResource("").getPath();
 
     private ResourceScanner() {
-        root = ResourceScanner.class.getClassLoader().getResource("").getPath();
         locations = Sets.newHashSet();
         fileFilter = new FileScanFilter();
         dirFilter = new DirectoryScanFilter();
-
-        // default setting
-        suffix(XML, PROP);
     }
 
-    public static ResourceScanner location(String... locations) {
-        INSTANCE.locations.addAll(Arrays.asList(locations));
-        return INSTANCE;
+    public static ResourceScanner newScanner() {
+        return new ResourceScanner();
+    }
+
+    public static ResourceScanner getDefault() {
+        ResourceScanner scanner = new ResourceScanner();
+        scanner.location("").suffix(XML, PROP);
+        return scanner;
+    }
+
+    public ResourceScanner location(String... locations) {
+        logger.debug("[scanner] locations: {}", Arrays.asList(locations));
+        this.locations.addAll(Arrays.asList(locations));
+        return this;
     }
 
     public ResourceScanner suffix(String... suffixes) {
-        logger.debug("[scanner-suffix] include: {}", suffixes);
+        logger.debug("[scanner] include suffix: {}", Arrays.asList(suffixes));
         return condition(INCLUDE_FILE_SUFFIX, suffixes);
     }
 
     public ResourceScanner excludeDir(String... directories) {
-        logger.debug("[scanner-directory] exclude: {}", directories);
+        logger.debug("[scanner] exclude: {}", Arrays.asList(directories));
         return condition(EXCLUDE_DIR, directories);
     }
 
     public ResourceScanner excludeFileName(String... filenames) {
-        logger.debug("[scanner-filename] exclude: {}", filenames);
+        logger.debug("[scanner] exclude filename: {}", Arrays.asList(filenames));
         return condition(EXCLUDE_FILE_NAME, filenames);
     }
 
@@ -81,7 +89,7 @@ public class ResourceScanner {
     }
 
     public List<Resource> scan() {
-        logger.debug("[scanner-scan] start");
+        logger.info("[scanner] begin");
 
         List<Resource> resources = Lists.newArrayList();
         for (String dir : locations) {
@@ -90,7 +98,7 @@ public class ResourceScanner {
                 recursiveScan(file, resources);
         }
 
-        logger.debug("[scanner-scan] end, with resources: {}", resources.size());
+        logger.info("[scanner] end with resources: {}", resources.size());
         return resources;
     }
 
@@ -105,11 +113,35 @@ public class ResourceScanner {
     }
 
     private boolean filterFile(File file) {
-        return fileFilter.exclude(file);
+        if (file.length() >= 1)
+            return fileFilter.exclude(file);
+
+        logger.warn("[scanner] ignore blank file: {}", file.getName());
+        return true;
     }
 
     private boolean filterDirectory(File dir) {
         return dirFilter.exclude(dir);
     }
 
+    public String root() {
+        return root;
+    }
+
+    public Set<String> locations() {
+        return Collections.unmodifiableSet(locations);
+    }
+
+    public ScanFilter fileFilter() {
+        return fileFilter;
+    }
+
+    public ScanFilter dirFilter() {
+        return dirFilter;
+    }
+
+    public static String getResourceJavaPath(Resource resource) {
+        String url = resource.getUrl();
+        return url.replace(root, "").replaceAll("/", ".").replace(".class", "");
+    }
 }

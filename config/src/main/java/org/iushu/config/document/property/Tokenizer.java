@@ -17,7 +17,7 @@ public class Tokenizer {
 
     public static final String SYMBOL_NODE = ".";
     public static final String SYMBOL_PROPERTY = "#";
-    public static final String SYMBOL_PROPERTY_MATCH = "=";
+//    public static final String SYMBOL_PROPERTY_MATCH = "=";
 
     private String key;
     private List<String> tokenizer;
@@ -67,6 +67,10 @@ public class Tokenizer {
         return tokenizer.get(--index);
     }
 
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     /**
      * @return whether if reached the last of tokenize.
      */
@@ -76,6 +80,12 @@ public class Tokenizer {
 
     public String getKey() {
         return key;
+    }
+
+    public Tokenizer copy() {
+        Tokenizer copy = new Tokenizer(key);
+        copy.setIndex(index);
+        return copy;
     }
 
     private List<String> parse() {
@@ -90,7 +100,7 @@ public class Tokenizer {
         String[] keys = tail.split("\\" + SYMBOL_PROPERTY);
         nodeKeys[nodeKeys.length - 1] = keys[0];
         List<String> list = Lists.newArrayList(nodeKeys);
-        list.add(keys[1]);
+        list.add(SYMBOL_PROPERTY + keys[1]);
         return list;
     }
 }

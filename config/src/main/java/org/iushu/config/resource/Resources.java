@@ -12,6 +12,7 @@ import java.util.*;
  * Util of AbstractResource
  *
  * Created by iuShu on 18-10-31
+ * @deprecated
  */
 public class Resources {
 

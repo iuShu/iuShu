@@ -11,8 +11,8 @@ import org.iushu.config.document.property.PropertyRepository;
 public interface Resolver {
 
     /**
-     * start resolve.
+     * start resolve the given document.
      */
-    PropertyRepository  resolve(Document document) throws Exception;
+    PropertyRepository resolve(Document document) throws Exception;
 
 }

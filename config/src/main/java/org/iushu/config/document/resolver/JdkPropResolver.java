@@ -1,5 +1,6 @@
 package org.iushu.config.document.resolver;
 
+import org.iushu.config.context.ConfigContext;
 import org.iushu.config.document.Document;
 import org.iushu.config.document.property.*;
 import org.slf4j.Logger;
@@ -18,11 +19,11 @@ import java.util.Properties;
  */
 public class JdkPropResolver implements Resolver {
 
-    private static Logger logger = LoggerFactory.getLogger("Configuration");
+    private static Logger logger = LoggerFactory.getLogger(ConfigContext.DEFAULT_LOGGER);
 
     @Override
     public PropertyRepository resolve(Document document) throws Exception {
-        logger.debug("[resolver-start] document: {}", document.getName());
+        logger.debug("[resolver] begin: {}", document.getName());
 
         InputStream is = document.open();
         Properties properties = new Properties();
@@ -41,13 +42,13 @@ public class JdkPropResolver implements Resolver {
                 }
                 else { // root node have existed, merge behind nodes
                     HierarchicalPropertyNode node = repository.matchingDepth(key);
-                    key.back(); // correction
+//                    key.back(); // correction
                     PropertyNode behind = ResolverFlow.newPropertyNode(key, null, entry.getValue());
                     node.addChild((HierarchicalPropertyNode) behind);
                 }
             }
 
-            logger.debug("[resolver-end] document: {}", document.getName());
+            logger.debug("[resolver]   end: {}", document.getName());
             return repository;
         } catch (IOException e) {
             logger.error(e.getMessage());

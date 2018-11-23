@@ -7,6 +7,8 @@ import org.iushu.config.document.property.*;
 import java.util.List;
 
 /**
+ * A helper class for Resolver components.
+ *
  * Created by iuShu on 18-11-6
  */
 public class ResolverFlow {

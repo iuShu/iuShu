@@ -1,4 +1,5 @@
 
+        ## config component build route ##
 
 1. register resource
     1.1 scan project directories and filters for optional.
@@ -37,8 +38,9 @@
     9.1 log4j - FileWatchDog
     9.2 java.nio.File - WatchService
     9.3 common.io - FileAlterationObserver
+    9.4 custom implementation of hotswap, the inspiration from FileWatchDog.
 
 10. integration with Spring
 
-9. distribution config
-    9.1 too much work(hold it)
+11. distribution config
+    11.1 too much work(hold it)

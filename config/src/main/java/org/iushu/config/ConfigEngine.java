@@ -17,6 +17,8 @@ import org.iushu.config.zoo.ServerConfig;
 import java.util.List;
 
 /**
+ * A debug class that no influence to main framework.
+ *
  * Created by iuShu on 18-10-23
  */
 public class ConfigEngine {

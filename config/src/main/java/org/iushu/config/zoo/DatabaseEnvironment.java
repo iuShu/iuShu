@@ -4,6 +4,8 @@ import org.iushu.config.annotation.AutoConfig;
 import org.iushu.config.annotation.AutoValue;
 
 /**
+ * Sample usage of xml.
+ *
  * Created by iuShu on 18-11-13
  */
 @AutoConfig(name = "database")

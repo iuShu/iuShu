@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 /**
  * Created by iuShu on 18-11-1
+ * @deprecated
  */
 public class DirectoryResource extends AbstractLocalResource {
 

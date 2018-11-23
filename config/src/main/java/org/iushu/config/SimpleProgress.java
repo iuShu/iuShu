@@ -26,6 +26,8 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * A debug class that no influence to main framework.
+ *
  * Created by iuShu on 18-10-31
  */
 public class SimpleProgress {

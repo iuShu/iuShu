@@ -4,7 +4,7 @@ import org.iushu.config.annotation.AutoConfig;
 import org.iushu.config.annotation.AutoValue;
 
 /**
- * Sample usage.
+ * Sample usage of properties file.
  *
  * Created by iuShu on 18-10-25
  */

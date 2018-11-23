@@ -1,4 +1,4 @@
-###iuShu.Config
+# iuShu.Config
 
 Config component is responsible for loading project configurations. The 
 current version is support loading xml and properties files. Hotswap is also
@@ -10,13 +10,13 @@ get the value of different configuration's type by a uniform method.
 
 To be support type: yml and ... ...
 
-####User guide: <br>
+## User guide: <br>
 Config provided two approach to get configuration value.<br>
 Suppose that we have a configuration named server.properties and the content is:<br>
 <code>
-    ## server.properties <br>
-    netty.host=localhost <br>
-    netty.port=5889 <br>
+    ## server.properties
+    netty.host=localhost
+    netty.port=5889
 </code>
 
 > get Value:

@@ -1,10 +1,6 @@
 package org.iushu.config;
 
-import org.apache.commons.lang3.StringUtils;
-import org.iushu.config.context.AutowiredConfigContext;
-import org.iushu.config.context.EntityConfigContext;
-import org.iushu.config.context.GenericConfigContext;
-import org.iushu.config.context.ConfigContext;
+import org.iushu.config.context.*;
 import org.iushu.config.definition.Definition;
 import org.iushu.config.document.Document;
 import org.iushu.config.document.property.PropertyRepository;
@@ -98,28 +94,31 @@ public class ConfigEngine {
     }
 
     private static void afterRefactorScanner() {
-        ResourceScanner scanner = ResourceScanner.getDefault().excludeFileName("log4j");
-        ConfigContext configContext = new GenericConfigContext(scanner);
+        ResourceScanner scanner = ResourceScanner.defaultScanner().excludeFileName("log4j");
+        WatchableConfigContext configContext = new GenericConfigContext(scanner);
         configContext.load();
+        configContext.watching();
 
         Object value = configContext.getValue("database", "configuration.properties.property#name=username");
         System.out.println(value);
     }
 
     private static void genericConfigContext() {
-        ResourceScanner configScanner = ResourceScanner.getDefault().excludeFileName("log4j");
-        ConfigContext configContext = new GenericConfigContext(configScanner);
+        ResourceScanner configScanner = ResourceScanner.defaultScanner().excludeFileName("log4j");
+        WatchableConfigContext configContext = new GenericConfigContext(configScanner);
         configContext.load();
+        configContext.watching();
 
         Object value = configContext.getValue("server", "server.heartbeat.interval");
         System.out.println("value: " + value);
     }
 
     private static void autowiredConfigContext() {
-        ResourceScanner configScanner = ResourceScanner.getDefault().excludeFileName("log4j");
+        ResourceScanner configScanner = ResourceScanner.defaultScanner().excludeFileName("log4j");
         ResourceScanner entityScanner = ResourceScanner.newScanner().location("org/iushu/config/zoo/");
-        EntityConfigContext configContext = new AutowiredConfigContext(configScanner, entityScanner);
+        AutowiredConfigContext configContext = new AutowiredConfigContext(configScanner, entityScanner);
         configContext.load();
+        configContext.watching();
 
         DatabaseEnvironment databaseEnvironment = configContext.getEntity("database", DatabaseEnvironment.class);
         System.out.println(databaseEnvironment);

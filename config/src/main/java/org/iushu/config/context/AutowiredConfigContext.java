@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public class AutowiredConfigContext extends GenericConfigContext implements EntityConfigContext {
 
-    private static Logger logger = LoggerFactory.getLogger(DEFAULT_LOGGER);
+    private static Logger logger = LoggerFactory.getLogger(CONFIGURATION_LOGGER);
 
     private static final String ENTITY_FILE_SUFFIX = "class";
     private ResourceScanner entityScanner;

@@ -19,7 +19,7 @@ import java.util.Properties;
  */
 public class JdkPropResolver implements Resolver {
 
-    private static Logger logger = LoggerFactory.getLogger(ConfigContext.DEFAULT_LOGGER);
+    private static Logger logger = LoggerFactory.getLogger(ConfigContext.CONFIGURATION_LOGGER);
 
     @Override
     public PropertyRepository resolve(Document document) throws Exception {

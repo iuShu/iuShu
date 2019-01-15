@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -46,7 +47,7 @@ public class DefaultPropertyNode implements HierarchicalPropertyNode {
 
     @Override
     public Map<String, PropertyNode> childes() {
-        return Maps.newHashMap(childes);
+        return Collections.unmodifiableMap(childes);
     }
 
     @Override
@@ -88,6 +89,11 @@ public class DefaultPropertyNode implements HierarchicalPropertyNode {
     @Override
     public Property getProperty() {
         return property;
+    }
+
+    @Override
+    public Object getValue() {
+        return value;
     }
 
     @Override

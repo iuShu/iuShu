@@ -21,9 +21,14 @@ public interface PropertyNode {
     Property getProperty();
 
     /**
-     * @return the value of this node
+     * @return the value of this node or children nodes
      */
     Object getValue(Tokenizer key);
+
+    /**
+     * @return the value of this node.
+     */
+    Object getValue();
 
     /**
      * set value to this node

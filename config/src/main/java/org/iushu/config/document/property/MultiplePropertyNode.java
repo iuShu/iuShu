@@ -2,11 +2,10 @@ package org.iushu.config.document.property;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * MultiplePropertyNode was a special PropertyNode which contains multiple nodes with the same key,
@@ -55,6 +54,11 @@ public class MultiplePropertyNode implements PropertyNode {
         return key;
     }
 
+    @Override
+    public Object getValue() {
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * NodeOrder is essential to location the specific node in MultiplePropertyNode.
      *
@@ -90,6 +94,10 @@ public class MultiplePropertyNode implements PropertyNode {
         if (propertyNode == null)
             return null;
         return propertyNode.getValue(key);
+    }
+
+    public Collection<PropertyNode> propertyNodes() {
+        return nodeMap.values();
     }
 
     @Override

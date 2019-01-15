@@ -8,7 +8,6 @@ import org.iushu.config.document.property.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
@@ -21,7 +20,7 @@ import static org.iushu.config.document.resolver.ResolverFlow.*;
  */
 public class Dom4jXmlResolver implements Resolver {
 
-    private static Logger logger = LoggerFactory.getLogger(ConfigContext.DEFAULT_LOGGER);
+    private static Logger logger = LoggerFactory.getLogger(ConfigContext.CONFIGURATION_LOGGER);
 
     @Override
     public PropertyRepository resolve(Document document) throws Exception {

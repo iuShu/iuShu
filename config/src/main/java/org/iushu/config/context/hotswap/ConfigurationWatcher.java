@@ -47,6 +47,7 @@ public class ConfigurationWatcher implements Runnable {
                 stopwatch.start();
                 watch();
                 stopwatch.stop();
+
                 long elapsed = stopwatch.elapsed(TimeUnit.MILLISECONDS);
                 long diff = interval - elapsed;
                 if (diff <= 0)

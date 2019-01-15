@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface ConfigContext {
 
-    String DEFAULT_LOGGER = "Configuration";
+    String CONFIGURATION_LOGGER = "Configuration";
 
     /**
      * begin loading config and store.

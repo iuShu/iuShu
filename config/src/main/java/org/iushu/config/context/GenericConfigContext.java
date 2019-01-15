@@ -1,7 +1,10 @@
 package org.iushu.config.context;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.iushu.config.context.hotswap.ConfigurationWatcher;
+import org.iushu.config.context.hotswap.WatcherListener;
 import org.iushu.config.document.Document;
 import org.iushu.config.document.property.Tokenizer;
 import org.iushu.config.context.hotswap.WatchEvent;
@@ -26,21 +29,22 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class GenericConfigContext implements WatchableConfigContext, Closeable {
 
-    private static Logger logger = LoggerFactory.getLogger(DEFAULT_LOGGER);
+    private static Logger logger = LoggerFactory.getLogger(CONFIGURATION_LOGGER);
 
     private Thread watcher;
     private ResourceScanner configScanner;
     private Map<String, Document> documentMap;
 
+    private List<WatcherListener> listeners;
+
     public GenericConfigContext(ResourceScanner configScanner) {
         this.configScanner = configScanner;
+        listeners = Lists.newLinkedList();
     }
 
     @Override
     public void load() {
-        if (documentMap != null) // already loaded
-            throw new IllegalArgumentException("Configuration have already loaded.");
-
+        Preconditions.checkArgument(documentMap == null, "Configuration already loaded.");
         logger.info("[context] begin load");
 
         Map<String, Document> map = Maps.newHashMap();
@@ -57,7 +61,8 @@ public class GenericConfigContext implements WatchableConfigContext, Closeable {
 
         this.documentMap = new ConcurrentHashMap<>(map);
 
-        watching();
+        // remove automatic open watching.
+//        watching();
 
         logger.info("[context] end load");
     }
@@ -98,6 +103,7 @@ public class GenericConfigContext implements WatchableConfigContext, Closeable {
                 remove(document);
                 break;
         }
+        notifyListener(watchEvent, document);
     }
 
     @Override
@@ -109,6 +115,18 @@ public class GenericConfigContext implements WatchableConfigContext, Closeable {
         watcher.setDaemon(false);
         watcher.start();
         logger.info("[context] start watching");
+    }
+
+    @Override
+    public void notifyListener(WatchEvent event, Document document) {
+        for (WatcherListener listener : listeners)
+            listener.afterChange(event, document);
+    }
+
+    @Override
+    public void addListener(WatcherListener listener) {
+        Preconditions.checkArgument(listener != null);
+        listeners.add(listener);
     }
 
     protected void reload(Document document) throws Exception {

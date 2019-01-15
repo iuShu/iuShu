@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<metrics>
+
+    <group name="loginService" class="org.iushu.metrics.zebra.LoginService">
+        <member>generateValidCode</member>
+        <member>login</member>
+        <member name="userLogout">logout</member>
+    </group>
+
+    <group name="mallService" class="org.iushu.metrics.zebra.MallService">
+        <member>getRecommendItems</member>
+        <member>isVip</member>
+        <member>getItemDetail</member>
+        <member>getItemListByCategory</member>
+        <!-- overload members were recognized by order and must config 'name' attribute. -->
+        <member name="hotItemRankingByCategory">hotItemRanking</member>
+        <member name="hotItemRankingByKeyword">hotItemRanking</member>
+    </group>
+
+    <group name="mallDao" class="org.iushu.metrics.zebra.MallDao">
+        <member>selectItemById</member>
+        <member>selectUserById</member>
+    </group>
+
+    <flow name="login">
+        <!-- <group name>.<member name> -->
+        <phase>loginService.generateValidCode</phase>
+        <phase>loginService.login</phase>
+        <phase>mallService.getRecommendItems</phase>
+        <phase>mallDao.selectItemById</phase>
+    </flow>
+
+</metrics>

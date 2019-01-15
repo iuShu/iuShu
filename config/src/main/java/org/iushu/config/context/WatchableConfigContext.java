@@ -1,6 +1,7 @@
 package org.iushu.config.context;
 
 import org.iushu.config.context.hotswap.WatchEvent;
+import org.iushu.config.context.hotswap.WatcherListener;
 import org.iushu.config.document.Document;
 
 /**
@@ -9,7 +10,11 @@ import org.iushu.config.document.Document;
  */
 public interface WatchableConfigContext extends ConfigContext {
 
+    void watching();
+
     void onChange(WatchEvent watchEvent, Document document) throws Exception;
 
-    void watching();
+    void addListener(WatcherListener listener);
+
+    void notifyListener(WatchEvent event, Document document);
 }

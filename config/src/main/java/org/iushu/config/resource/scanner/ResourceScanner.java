@@ -25,7 +25,7 @@ import java.util.Set;
  */
 public class ResourceScanner {
 
-    private static Logger logger = LoggerFactory.getLogger(ConfigContext.DEFAULT_LOGGER);
+    private static Logger logger = LoggerFactory.getLogger(ConfigContext.CONFIGURATION_LOGGER);
 
     public static final int INCLUDE_FILE_SUFFIX = 0x01;
     public static final int EXCLUDE_FILE_NAME = 0x04;
@@ -53,7 +53,7 @@ public class ResourceScanner {
         return new ResourceScanner();
     }
 
-    public static ResourceScanner getDefault() {
+    public static ResourceScanner defaultScanner() {
         ResourceScanner scanner = new ResourceScanner();
         scanner.location("").suffix(XML, PROP);
         return scanner;

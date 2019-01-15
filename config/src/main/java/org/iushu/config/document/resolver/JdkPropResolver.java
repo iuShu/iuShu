@@ -42,7 +42,7 @@ public class JdkPropResolver implements Resolver {
                 }
                 else { // root node have existed, merge behind nodes
                     HierarchicalPropertyNode node = repository.matchingDepth(key);
-//                    key.back(); // correction
+                    key.back(); // correction
                     PropertyNode behind = ResolverFlow.newPropertyNode(key, null, entry.getValue());
                     node.addChild((HierarchicalPropertyNode) behind);
                 }

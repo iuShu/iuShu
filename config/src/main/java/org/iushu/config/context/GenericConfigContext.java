@@ -75,7 +75,7 @@ public class GenericConfigContext implements WatchableConfigContext, Closeable {
         Document document = documentMap.get(configName);
         if (document == null || document.getRepository() == null)
             return null;
-        return document.getRepository().getValue(new Tokenizer(configKey));
+        return document.getRepository().getValue(Tokenizer.create(configKey));
     }
 
     @Override
@@ -133,12 +133,7 @@ public class GenericConfigContext implements WatchableConfigContext, Closeable {
             documentMap.clear();
         if (watcher != null)
             watcher.interrupt();
-        logger.info("[context] close, Good bye.");
-    }
-
-    @Override
-    public <T> T getEntity(String configName, Class<T> clazz) {
-        throw new UnsupportedOperationException();
+        logger.info("[context] closed, Good bye.");
     }
 
 }

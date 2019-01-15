@@ -20,9 +20,6 @@ public interface ConfigContext {
     @Nullable
     Object getValue(String configName, String configKey);
 
-    @Nullable
-    <T> T getEntity(String configName, Class<T> clazz);
-
     Set<Document> documents();
 
     ResourceScanner scanner();

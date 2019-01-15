@@ -16,7 +16,6 @@ import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,7 @@ import java.util.Map;
  *
  * Created by iuShu on 18-11-20
  */
-public class AutowiredConfigContext extends GenericConfigContext {
+public class AutowiredConfigContext extends GenericConfigContext implements EntityConfigContext {
 
     private static Logger logger = LoggerFactory.getLogger(DEFAULT_LOGGER);
 
@@ -101,10 +100,8 @@ public class AutowiredConfigContext extends GenericConfigContext {
             setMethod.invoke(entity, propertyEditor.getValue());
         } catch (IntrospectionException e) {
             throw new IntrospectionException(fieldName + " requires a setter method.");
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error("setProperty occur Error", e);
         }
     }
 
@@ -118,8 +115,8 @@ public class AutowiredConfigContext extends GenericConfigContext {
 
     /**
      * In this phase, do not modify the reference of the entity which had already referenced by user programs.
-     * That is, the configCache will be cache the unique reference of the entity forever once creates, no matter
-     * how many times reloading the corresponding document.
+     * That is, the configCache will be cache the unique reference of the entity forever once created, no matter
+     * how many times to reload the corresponding document.
      *
      * @param document the reloaded document
      * @throws Exception

@@ -2,6 +2,7 @@ package org.iushu.config;
 
 import org.apache.commons.lang3.StringUtils;
 import org.iushu.config.context.AutowiredConfigContext;
+import org.iushu.config.context.EntityConfigContext;
 import org.iushu.config.context.GenericConfigContext;
 import org.iushu.config.context.ConfigContext;
 import org.iushu.config.definition.Definition;
@@ -117,7 +118,7 @@ public class ConfigEngine {
     private static void autowiredConfigContext() {
         ResourceScanner configScanner = ResourceScanner.getDefault().excludeFileName("log4j");
         ResourceScanner entityScanner = ResourceScanner.newScanner().location("org/iushu/config/zoo/");
-        ConfigContext configContext = new AutowiredConfigContext(configScanner, entityScanner);
+        EntityConfigContext configContext = new AutowiredConfigContext(configScanner, entityScanner);
         configContext.load();
 
         DatabaseEnvironment databaseEnvironment = configContext.getEntity("database", DatabaseEnvironment.class);
